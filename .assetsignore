@@ -1,0 +1,14 @@
+# The repo root is the deploy root, so every file here is reachable at
+# apps.ohayo.by/<path> unless it is listed below. Anything that is not part of the
+# public site MUST be added here — templates, the generator and the README are not.
+# Workers Assets applies this at deploy time; it is the only mechanism available
+# (a `_redirects` 404 rule fails the whole deploy).
+.assetsignore
+.gitignore
+.git/
+README.md
+render.py
+templates/
+node_modules/
+.wrangler/
+.DS_Store
