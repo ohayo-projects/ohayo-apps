@@ -3,53 +3,204 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ohayo Network — network monitor for the macOS menu bar</title>
-<meta name="description" content="Live speed, your real exit IP and the location of every VPN tunnel — right in the macOS menu bar. Opt-in per-app traffic. No account, no analytics.">
+<title>Ohayo Network — network and VPN monitor for the Mac menu bar</title>
+<meta name="description" content="Live speed, your real exit IP and where each VPN tunnel exits — in the Mac menu bar. Per-app traffic, Wi-Fi details and a speed test. No account, no analytics.">
 <meta name="theme-color" content="#08070d">
 <link rel="canonical" href="https://apps.ohayo.by/ohayo-network">
 <link rel="alternate" hreflang="en" href="https://apps.ohayo.by/ohayo-network">
 <link rel="alternate" hreflang="ru" href="https://apps.ohayo.by/ohayo-network/ru">
 <link rel="alternate" hreflang="x-default" href="https://apps.ohayo.by/ohayo-network">
-<link rel="icon" href="/assets/ohayo-network/icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/assets/ohayo-network/apple-touch-icon.png">
+<link rel="alternate" type="text/markdown" href="/ohayo-network.md" title="Ohayo Network — network and VPN monitor for the Mac menu bar (Markdown)">
+<link rel="icon" href="/assets/ohayo-network/icon.svg?v=e9e6f6fa11" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/ohayo-network/apple-touch-icon.png?v=bd017d7579">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ohayo">
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="Ohayo Network — network monitor for the macOS menu bar">
-<meta property="og:description" content="Live speed, your real exit IP and the location of every VPN tunnel — right in the macOS menu bar. Opt-in per-app traffic. No account, no analytics.">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:title" content="Ohayo Network — network and VPN monitor for the Mac menu bar">
+<meta property="og:description" content="Live speed, your real exit IP and where each VPN tunnel exits — in the Mac menu bar. Per-app traffic, Wi-Fi details and a speed test. No account, no analytics.">
 <meta property="og:url" content="https://apps.ohayo.by/ohayo-network">
 <meta property="og:image" content="https://apps.ohayo.by/assets/ohayo-network/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Ohayo Network running in the macOS menu bar">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="/assets/site.css">
-<script src="/assets/head.js"></script>
-<script type="application/ld+json">
-{
+<link rel="stylesheet" href="/assets/site.css?v=21035404ca">
+<script src="/assets/head.js?v=bfcff36d0f"></script>
+<script type="application/ld+json">{
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Ohayo Network",
-  "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "macOS 14.0 or later, Apple silicon",
-  "inLanguage": ["en", "ru"],
-  "url": "https://apps.ohayo.by/ohayo-network",
-  "sameAs": "https://apps.apple.com/app/ohayo-network/id6787492543?mt=12",
-  "downloadUrl": "https://apps.apple.com/app/ohayo-network/id6787492543?mt=12",
-  "image": "https://apps.ohayo.by/assets/ohayo-network/og.png",
-  "description": "Live speed, your real exit IP and the location of every VPN tunnel — right in the macOS menu bar. Opt-in per-app traffic. No account, no analytics.",
-  "author": { "@type": "Organization", "name": "Ohayo", "url": "https://apps.ohayo.by/" }
-}
-</script>
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://apps.ohayo.by/#organization",
+      "name": "Ohayo Studio",
+      "alternateName": "Ohayo",
+      "url": "https://apps.ohayo.by/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://apps.ohayo.by/assets/apple-touch-icon.png",
+        "width": 180,
+        "height": 180
+      },
+      "email": "feedback@ohayo.by"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://apps.ohayo.by/#website",
+      "url": "https://apps.ohayo.by/",
+      "name": "Ohayo",
+      "inLanguage": [
+        "en",
+        "ru"
+      ],
+      "publisher": {
+        "@id": "https://apps.ohayo.by/#organization"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://apps.ohayo.by/ohayo-network#webpage",
+      "url": "https://apps.ohayo.by/ohayo-network",
+      "name": "Ohayo Network — network and VPN monitor for the Mac menu bar",
+      "description": "Live speed, your real exit IP and where each VPN tunnel exits — in the Mac menu bar. Per-app traffic, Wi-Fi details and a speed test. No account, no analytics.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://apps.ohayo.by/#website"
+      },
+      "about": {
+        "@id": "https://apps.ohayo.by/ohayo-network#app"
+      },
+      "primaryImageOfPage": "https://apps.ohayo.by/assets/ohayo-network/og.png",
+      "breadcrumb": {
+        "@id": "https://apps.ohayo.by/ohayo-network#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://apps.ohayo.by/ohayo-network#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Ohayo apps",
+          "item": "https://apps.ohayo.by/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Ohayo Network",
+          "item": "https://apps.ohayo.by/ohayo-network"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://apps.ohayo.by/ohayo-network#app",
+      "name": "Ohayo Network",
+      "description": "Live speed, your real exit IP and where each VPN tunnel exits — in the Mac menu bar. Per-app traffic, Wi-Fi details and a speed test. No account, no analytics.",
+      "applicationCategory": "UtilitiesApplication",
+      "applicationSubCategory": "Network monitor",
+      "operatingSystem": "macOS 14.0 or later",
+      "processorRequirements": "Apple silicon (arm64)",
+      "inLanguage": [
+        "en",
+        "ru"
+      ],
+      "url": "https://apps.ohayo.by/ohayo-network",
+      "installUrl": "https://apps.apple.com/app/ohayo-network/id6787492543?mt=12",
+      "sameAs": [
+        "https://apps.apple.com/app/ohayo-network/id6787492543?mt=12"
+      ],
+      "image": "https://apps.ohayo.by/assets/ohayo-network/og.png",
+      "screenshot": [
+        "https://apps.ohayo.by/assets/ohayo-network/en/popover.png",
+        "https://apps.ohayo.by/assets/ohayo-network/en/dashboard.png",
+        "https://apps.ohayo.by/assets/ohayo-network/en/per-app.png",
+        "https://apps.ohayo.by/assets/ohayo-network/en/settings.png"
+      ],
+      "featureList": [
+        "Throughput, straight from the kernel",
+        "Every tunnel, located separately",
+        "Exit IP and region",
+        "Per-app traffic",
+        "Latency and a real speed test",
+        "Wi-Fi, in detail",
+        "Data usage on your own schedule",
+        "The geolocation services are yours"
+      ],
+      "author": {
+        "@id": "https://apps.ohayo.by/#organization"
+      },
+      "publisher": {
+        "@id": "https://apps.ohayo.by/#organization"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://apps.ohayo.by/ohayo-network#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I need a VPN for this to be useful?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Without a tunnel you get live speed, your exit IP and region, latency, Wi-Fi details, data usage and the speed test. If you do use one, each active tunnel is geolocated separately — that is what sets it apart from most menu-bar monitors."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the system extension, and do I have to install it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Per-app traffic is the only feature that needs it, and it is entirely optional — everything else works without it. It is a macOS content-filter extension: read-only, never blocking, never inspecting payload. You install it yourself, approve it in System Settings, and can uninstall it from the same panel at any time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work on Intel Macs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No — Ohayo Network is built for Apple silicon and requires macOS 14 Sonoma or later. If you need an Intel build, write to feedback@ohayo.by."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it a subscription?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. It is a one-time purchase on the Mac App Store, and updates to the version you bought arrive the usual way."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does monitoring slow my connection down?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Speed is read from counters the kernel already maintains, once a second. The content filter allows every flow immediately and only asks the kernel for cumulative byte counts — your traffic never routes through user space."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What languages does it speak?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "English and Russian, following your system language. If you need another language, write to feedback@ohayo.by."
+          }
+        }
+      ]
+    }
+  ]
+}</script>
 </head>
 <body>
 
 <a class="skip" href="#main">Skip to content</a>
+<aside class="lang-hint" lang="ru" aria-label="Язык" hidden><span>Эта страница есть на русском.</span><a href="/ohayo-network/ru" data-lang="ru">Открыть</a><button type="button" data-lang="en" aria-label="Закрыть">×</button></aside>
 
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="/">
-      <img src="/assets/ohayo-network/icon.svg" alt="" width="30" height="30">
+      <img src="/assets/ohayo-network/icon.svg?v=e9e6f6fa11" alt="" width="30" height="30">
       <span>Ohayo Network</span>
     </a>
     <nav class="nav-links" aria-label="Main">
@@ -71,20 +222,23 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <h1><span>Your connection,</span><span class='grad'>in the menu bar.</span></h1>
+        <h1><span class="h1-eyebrow">Ohayo Network — network and VPN monitor for Mac</span><span>Your connection,</span><span class='grad'>in the menu bar.</span></h1>
         <p class="lead">Live download and upload speed, the country your traffic actually exits from, and — unusually — the location of every VPN tunnel separately. Split routing is visible at a glance.</p>
         <div class="cta-row">
           <a class="badge" href="https://apps.apple.com/app/ohayo-network/id6787492543?mt=12" target="_blank" rel="noopener" aria-label="Download Ohayo Network on the Mac App Store">
-            <img src="/assets/badge-mas-en-us.svg" alt="Download Ohayo Network on the Mac App Store" width="211" height="54">
+            <img src="/assets/badge-mas-en-us.svg?v=15111cd043" alt="Download Ohayo Network on the Mac App Store" width="211" height="54">
           </a>
         </div>
         <p class="cta-note">macOS 14 or later · Apple silicon · one-time purchase, no subscription</p>
         <p class="cta-more"><a class="arrow-link" href="#features">See what it can do<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a></p>
       </div>
       <div class="stage">
-        <img class="app-shot" src="/assets/ohayo-network/en/popover.png" alt="The Ohayo Network popover: connection, speed, map of the exit location, tunnels and top apps" width="652" height="1298" fetchpriority="high">
-        <span class="chip chip-1"><img src="/assets/ohayo-network/en/menubar-speed.png" alt="" width="190" height="66"></span>
-        <span class="chip chip-2"><img src="/assets/ohayo-network/en/menubar-sparkline.png" alt="" width="188" height="56"></span>
+        <picture>
+          <source srcset="/assets/ohayo-network/en/popover.avif?v=b4b7548724" type="image/avif">
+          <img class="app-shot" src="/assets/ohayo-network/en/popover.png?v=c00ade9b27" alt="The Ohayo Network popover: connection, speed, map of the exit location, tunnels and top apps" width="652" height="1298" fetchpriority="high">
+        </picture>
+        <span class="chip chip-1"><img src="/assets/ohayo-network/en/menubar-speed.png?v=b60ce654ca" alt="" width="190" height="66"></span>
+        <span class="chip chip-2"><img src="/assets/ohayo-network/en/menubar-sparkline.png?v=7824c6dac7" alt="" width="188" height="56"></span>
       </div>
     </div>
   </section>
@@ -177,47 +331,56 @@
       <div class="shots">
         <article class="shot reveal">
           <div class="shot-copy">
-            <h2>The whole link, in one window</h2>
+            <h3>The whole link, in one window</h3>
             <p>The dashboard stacks everything that matters into a single scroll: what you are connected through, where it comes out, how fast it is right now, and what a proper test says.</p>
             <ul><li>Connection card: Wi-Fi, Ethernet or VPN — including the carrier underneath a tunnel</li><li>Active tunnels, each with its own flag and exit</li><li>Throughput chart and a Cloudflare speed test with ping, download and upload</li></ul>
           </div>
           <div class="shot-media">
-            <img src="/assets/ohayo-network/en/dashboard.png" alt="The Ohayo Network dashboard: connection, active tunnels, throughput chart and speed test results" width="622" height="900" loading="lazy">
+            <picture>
+              <source srcset="/assets/ohayo-network/en/dashboard.avif?v=73760dbac6" type="image/avif">
+              <img src="/assets/ohayo-network/en/dashboard.png?v=27a8e728f1" alt="The Ohayo Network dashboard: connection, active tunnels, throughput chart and speed test results" width="622" height="900" loading="lazy">
+            </picture>
           </div>
         </article>
 
         <article class="shot reveal">
           <div class="shot-copy">
-            <h2>See which apps use the network</h2>
+            <h3>See which apps use the network</h3>
             <p>Every app that touches the network is listed live — with connection counts and the endpoints it talks to. It runs on a macOS content-filter system extension, installed from the app's own settings.</p>
             <ul><li>Read-only: every flow is allowed, untouched — nothing is blocked, redirected or modified</li><li>No payload is ever read; byte counts are aggregated in memory and written nowhere</li><li>Remove the extension whenever you like; the rest of the app keeps working</li></ul>
           </div>
           <div class="shot-media">
-            <img src="/assets/ohayo-network/en/per-app.png" alt="The per-app traffic table listing apps with live download and upload rates and session totals" width="756" height="900" loading="lazy">
+            <picture>
+              <source srcset="/assets/ohayo-network/en/per-app.avif?v=64d6388cff" type="image/avif">
+              <img src="/assets/ohayo-network/en/per-app.png?v=5e8dca0c62" alt="The per-app traffic table listing apps with live download and upload rates and session totals" width="756" height="900" loading="lazy">
+            </picture>
           </div>
         </article>
 
         <article class="shot stack reveal">
           <div class="shot-copy">
-            <h2>Every switch in one pane</h2>
+            <h3>Every switch in one pane</h3>
             <p>Monitoring settings keep the controls together: how data usage resets, whether Wi-Fi details are read, and whether traffic is counted per app.</p>
             <ul><li>Data usage resets daily, weekly, monthly or never — or clear it by hand right there</li><li>Wi-Fi details are their own switch; macOS gates network names behind Location access</li><li>The system extension installs and uninstalls here, with counting as a separate toggle</li></ul>
           </div>
           <div class="shot-media">
-            <img src="/assets/ohayo-network/en/settings.png" alt="The Monitoring settings pane with the system extension section and the per-app traffic toggle" width="1200" height="796" loading="lazy">
+            <picture>
+              <source srcset="/assets/ohayo-network/en/settings.avif?v=679f4235ae" type="image/avif">
+              <img src="/assets/ohayo-network/en/settings.png?v=05755e2bf5" alt="The Monitoring settings pane with the system extension section and the per-app traffic toggle" width="1200" height="796" loading="lazy">
+            </picture>
           </div>
         </article>
 
         <article class="shot stack reveal">
           <div class="shot-copy">
-            <h2>The status bar, your way</h2>
+            <h3>The status bar, your way</h3>
             <p>Show a live sparkline, the two speeds, a compact label — with or without the flag of the country you are exiting from. It is a menu-bar app: no dock icon, no window in the way.</p>
           </div>
           <div class="shot-media">
             <div class="menubar-row">
-              <span class="chip"><img src="/assets/ohayo-network/en/menubar-speed.png" alt="Menu-bar item showing download and upload speed" width="190" height="66" loading="lazy"></span>
-              <span class="chip"><img src="/assets/ohayo-network/en/menubar-sparkline.png" alt="Menu-bar item showing a live throughput sparkline" width="188" height="56" loading="lazy"></span>
-              <span class="chip"><img src="/assets/ohayo-network/en/menubar-label.png" alt="Menu-bar item showing a compact label with the exit country flag" width="284" height="66" loading="lazy"></span>
+              <span class="chip"><img src="/assets/ohayo-network/en/menubar-speed.png?v=b60ce654ca" alt="Menu-bar item showing download and upload speed" width="190" height="66" loading="lazy"></span>
+              <span class="chip"><img src="/assets/ohayo-network/en/menubar-sparkline.png?v=7824c6dac7" alt="Menu-bar item showing a live throughput sparkline" width="188" height="56" loading="lazy"></span>
+              <span class="chip"><img src="/assets/ohayo-network/en/menubar-label.png?v=ec462240d3" alt="Menu-bar item showing a compact label with the exit country flag" width="284" height="66" loading="lazy"></span>
             </div>
           </div>
         </article>
@@ -241,6 +404,22 @@
     </div>
   </section>
 
+  <section id="glance">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">At a glance</p>
+        <h2>Ohayo Network in brief.</h2>
+      </div>
+      <div class="glance reveal">
+        <div class="glance-uses">
+          <h3>Made for</h3>
+          <ul><li>Checking which country your VPN really exits from — per tunnel, even with several connected.</li><li>Noticing at once when your exit IP or region changes: a VPN that dropped, or traffic taking a route you did not expect.</li><li>Finding out which app is using your bandwidth and which servers it talks to.</li><li>Watching live speed, Wi-Fi signal and data usage without opening a window.</li><li>Running a quick Cloudflare speed test or a latency check from the menu bar.</li></ul>
+        </div>
+        <dl class="facts"><dt>Platform</dt><dd>macOS 14 Sonoma or later</dd><dt>Processor</dt><dd>Apple silicon (M1 or newer)</dd><dt>App type</dt><dd>Menu-bar utility, no Dock icon</dd><dt>Availability</dt><dd>Mac App Store · one-time purchase, no subscription</dd><dt>VPN and tunnels</dt><dd>Any tunnel interface: WireGuard, IPsec, PPP and utun/tun-based clients such as OpenVPN</dd><dt>Per-app traffic</dt><dd>Optional read-only content-filter system extension</dd><dt>Account</dt><dd>Not required</dd><dt>Data collection</dt><dd>None — no analytics, no ads, no backend</dd><dt>Languages</dt><dd>English, Russian</dd><dt>Developer</dt><dd>Ohayo Studio</dd></dl>
+      </div>
+    </div>
+  </section>
+
   <section id="faq">
     <div class="wrap">
       <div class="section-head reveal">
@@ -248,7 +427,7 @@
         <h2>Before you buy.</h2>
       </div>
       <div class="faq reveal">
-        <details><summary>Do I need a VPN for this to be useful?</summary><p>No. Without a tunnel you get live speed, your exit IP and region, latency, Wi-Fi details, data usage and the speed test. If you do use one, each active tunnel is geolocated separately — that is the part no other menu-bar monitor does.</p></details>
+        <details><summary>Do I need a VPN for this to be useful?</summary><p>No. Without a tunnel you get live speed, your exit IP and region, latency, Wi-Fi details, data usage and the speed test. If you do use one, each active tunnel is geolocated separately — that is what sets it apart from most menu-bar monitors.</p></details>
         <details><summary>What is the system extension, and do I have to install it?</summary><p>Per-app traffic is the only feature that needs it, and it is entirely optional — everything else works without it. It is a macOS content-filter extension: read-only, never blocking, never inspecting payload. You install it yourself, approve it in System Settings, and can uninstall it from the same panel at any time.</p></details>
         <details><summary>Does it work on Intel Macs?</summary><p>No — Ohayo Network is built for Apple silicon and requires macOS 14 Sonoma or later. If you need an Intel build, write to feedback@ohayo.by.</p></details>
         <details><summary>Is it a subscription?</summary><p>No. It is a one-time purchase on the Mac App Store, and updates to the version you bought arrive the usual way.</p></details>
@@ -260,12 +439,12 @@
 
   <section class="closer" id="get">
     <div class="wrap reveal">
-      <img class="mark" src="/assets/ohayo-network/icon.svg" alt="" width="84" height="84">
+      <img class="mark" src="/assets/ohayo-network/icon.svg?v=e9e6f6fa11" alt="" width="84" height="84">
       <h2>Know where your traffic goes.</h2>
       <p class="lead">One window, one status bar item, and no doubt about which country your packets left through.</p>
       <div class="cta-row">
         <a class="badge" href="https://apps.apple.com/app/ohayo-network/id6787492543?mt=12" target="_blank" rel="noopener" aria-label="Download Ohayo Network on the Mac App Store">
-          <img src="/assets/badge-mas-en-us.svg" alt="Download Ohayo Network on the Mac App Store" width="211" height="54" loading="lazy">
+          <img src="/assets/badge-mas-en-us.svg?v=15111cd043" alt="Download Ohayo Network on the Mac App Store" width="211" height="54" loading="lazy">
         </a>
       </div>
       <p class="cta-note">macOS 14 or later · Apple silicon · one-time purchase, no subscription</p>
@@ -278,7 +457,7 @@
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <a class="brand" href="/"><img src="/assets/ohayo-network/icon.svg" alt="" width="30" height="30"><span>Ohayo Network</span></a>
+        <a class="brand" href="/"><img src="/assets/ohayo-network/icon.svg?v=e9e6f6fa11" alt="" width="30" height="30"><span>Ohayo Network</span></a>
         <p style="margin:12px 0 0">A menu-bar network monitor for macOS.</p>
       </div>
       <nav aria-label="Footer">
@@ -294,6 +473,6 @@
   </div>
 </footer>
 
-<script src="/assets/site.js" defer></script>
+<script src="/assets/site.js?v=728873054f" defer></script>
 </body>
 </html>

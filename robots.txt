@@ -1,4 +1,7 @@
+# A public product site: search engines and AI assistants are welcome to index it,
+# quote it, answer with it and learn from it. https://contentsignals.org
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 Sitemap: https://apps.ohayo.by/sitemap.xml

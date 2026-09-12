@@ -9,6 +9,7 @@
 README.md
 render.py
 templates/
+tools/
 node_modules/
 .wrangler/
 .DS_Store

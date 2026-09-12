@@ -2,11 +2,15 @@
 """Renders apps.ohayo.by from the templates in templates/ plus the copy below.
 
 One structure, two locales: edit STRINGS (or the template), re-run, commit the
-generated index.html / ru/index.html / ohayo-network/index.html /
-ohayo-network/ru/index.html and sitemap.xml.
+generated pages, their Markdown twins, llms.txt and sitemap.xml.
 
     python3 render.py
 """
+import hashlib
+import html
+import json
+import re
+import subprocess
 from datetime import date
 from pathlib import Path
 
@@ -18,6 +22,7 @@ LOCALES = {
     "en": {
         "LANG": "en",
         "OG_LOCALE": "en_US",
+        "OG_LOCALE_ALT": "ru_RU",
         "BADGE_LOCALE": "en-us",
         "SHOTS": "en",
         "HUB_PATH": "/",
@@ -28,10 +33,12 @@ LOCALES = {
         "network_out": "ohayo-network/index.html",
         "home_path": "/",
         "network_path": "/ohayo-network",
+        "network_md": "ohayo-network.md",
     },
     "ru": {
         "LANG": "ru",
         "OG_LOCALE": "ru_RU",
+        "OG_LOCALE_ALT": "en_US",
         "BADGE_LOCALE": "ru-ru",
         "SHOTS": "ru",
         "HUB_PATH": "/ru",
@@ -42,6 +49,7 @@ LOCALES = {
         "network_out": "ohayo-network/ru/index.html",
         "home_path": "/ru",
         "network_path": "/ohayo-network/ru",
+        "network_md": "ohayo-network/ru.md",
     },
 }
 
@@ -67,8 +75,8 @@ STRINGS = {
         "FOOTER_LEGAL": "Legal & support",
 
         # -- network: head -------------------------------------------------
-        "TITLE": "Ohayo Network — network monitor for the macOS menu bar",
-        "DESCRIPTION": "Live speed, your real exit IP and the location of every VPN tunnel — right in the macOS menu bar. Opt-in per-app traffic. No account, no analytics.",
+        "TITLE": "Ohayo Network — network and VPN monitor for the Mac menu bar",
+        "DESCRIPTION": "Live speed, your real exit IP and where each VPN tunnel exits — in the Mac menu bar. Per-app traffic, Wi-Fi details and a speed test. No account, no analytics.",
         "OG_IMAGE_ALT": "Ohayo Network running in the macOS menu bar",
 
         "NAV_FEATURES": "Features",
@@ -78,6 +86,7 @@ STRINGS = {
         "NAV_CTA": "Get it",
 
         # -- network: hero -------------------------------------------------
+        "HERO_EYEBROW": "Ohayo Network — network and VPN monitor for Mac",
         "HERO_H1": "<span>Your connection,</span><span class='grad'>in the menu bar.</span>",
         "HERO_SUB": "Live download and upload speed, the country your traffic actually exits from, and — unusually — the location of every VPN tunnel separately. Split routing is visible at a glance.",
         "HERO_SECONDARY": "See what it can do",
@@ -154,11 +163,35 @@ STRINGS = {
         "P3_P": "The content-filter extension allows every flow untouched, never inspects payload, and writes nothing to disk. It only counts bytes per app, in memory.",
         "PRIVACY_LINK": "Read the full privacy policy →",
 
+        # -- network: at a glance ------------------------------------------
+        "GLANCE_KICKER": "At a glance",
+        "GLANCE_H2": "Ohayo Network in brief.",
+        "USES_H": "Made for",
+        "USES": [
+            "Checking which country your VPN really exits from — per tunnel, even with several connected.",
+            "Noticing at once when your exit IP or region changes: a VPN that dropped, or traffic taking a route you did not expect.",
+            "Finding out which app is using your bandwidth and which servers it talks to.",
+            "Watching live speed, Wi-Fi signal and data usage without opening a window.",
+            "Running a quick Cloudflare speed test or a latency check from the menu bar.",
+        ],
+        "FACTS": [
+            ("Platform", "macOS 14 Sonoma or later"),
+            ("Processor", "Apple silicon (M1 or newer)"),
+            ("App type", "Menu-bar utility, no Dock icon"),
+            ("Availability", "Mac App Store · one-time purchase, no subscription"),
+            ("VPN and tunnels", "Any tunnel interface: WireGuard, IPsec, PPP and utun/tun-based clients such as OpenVPN"),
+            ("Per-app traffic", "Optional read-only content-filter system extension"),
+            ("Account", "Not required"),
+            ("Data collection", "None — no analytics, no ads, no backend"),
+            ("Languages", "English, Russian"),
+            ("Developer", "Ohayo Studio"),
+        ],
+
         # -- network: faq --------------------------------------------------
         "FAQ_KICKER": "FAQ",
         "FAQ_H2": "Before you buy.",
         "Q1": "Do I need a VPN for this to be useful?",
-        "A1": "No. Without a tunnel you get live speed, your exit IP and region, latency, Wi-Fi details, data usage and the speed test. If you do use one, each active tunnel is geolocated separately — that is the part no other menu-bar monitor does.",
+        "A1": "No. Without a tunnel you get live speed, your exit IP and region, latency, Wi-Fi details, data usage and the speed test. If you do use one, each active tunnel is geolocated separately — that is what sets it apart from most menu-bar monitors.",
         "Q2": "What is the system extension, and do I have to install it?",
         "A2": "Per-app traffic is the only feature that needs it, and it is entirely optional — everything else works without it. It is a macOS content-filter extension: read-only, never blocking, never inspecting payload. You install it yourself, approve it in System Settings, and can uninstall it from the same panel at any time.",
         "Q3": "Does it work on Intel Macs?",
@@ -179,6 +212,15 @@ STRINGS = {
         "FOOTER_PRIVACY": "Privacy Policy",
         "FOOTER_EULA": "EULA",
         "FOOTER_FINE": "Mac App Store copies are licensed under Apple's standard Licensed Application EULA; our own EULA covers directly distributed copies.",
+
+        # -- machine-readable twins (JSON-LD, Markdown) --------------------
+        "LD_APPS": "Ohayo apps",
+        "LD_SUBCATEGORY": "Network monitor",
+        "MD_STORE": "Get it on the Mac App Store",
+        "MD_LINKS": "Links",
+        "MD_WEB": "Web page",
+        "MD_OTHER_LANG": "Russian version",
+        "MD_SUPPORT": "Support",
     },
 
     "ru": {
@@ -202,8 +244,8 @@ STRINGS = {
         "FOOTER_LEGAL": "Документы и поддержка",
 
         # -- network: head -------------------------------------------------
-        "TITLE": "Ohayo Network — монитор сети в строке меню macOS",
-        "DESCRIPTION": "Скорость, реальный внешний IP и геолокация каждого VPN-туннеля прямо в строке меню macOS. Трафик по приложениям — по желанию. Без аккаунта и аналитики.",
+        "TITLE": "Ohayo Network — монитор сети и VPN в строке меню Mac",
+        "DESCRIPTION": "Скорость, реальный внешний IP и страна выхода каждого VPN-туннеля — в строке меню Mac. Трафик по приложениям, Wi-Fi и замер скорости. Без аккаунта и аналитики.",
         "OG_IMAGE_ALT": "Ohayo Network в строке меню macOS",
 
         "NAV_FEATURES": "Возможности",
@@ -213,6 +255,7 @@ STRINGS = {
         "NAV_CTA": "Купить",
 
         # -- network: hero -------------------------------------------------
+        "HERO_EYEBROW": "Ohayo Network — монитор сети и VPN для Mac",
         "HERO_H1": "<span>Ваше подключение —</span><span class='grad'>в строке меню.</span>",
         "HERO_SUB": "Скорость приёма и отдачи в реальном времени, страна, из которой на самом деле выходит трафик, и — что редкость — геолокация каждого VPN-туннеля по отдельности. Раздельная маршрутизация видна сразу.",
         "HERO_SECONDARY": "Посмотреть возможности",
@@ -289,11 +332,35 @@ STRINGS = {
         "P3_P": "Расширение-контент-фильтр пропускает каждое соединение нетронутым, не заглядывает в содержимое и ничего не пишет на диск. Оно лишь считает байты по приложениям — в памяти.",
         "PRIVACY_LINK": "Полная политика конфиденциальности →",
 
+        # -- network: at a glance ------------------------------------------
+        "GLANCE_KICKER": "Коротко",
+        "GLANCE_H2": "Ohayo Network в двух словах.",
+        "USES_H": "Для чего он",
+        "USES": [
+            "Проверить, через какую страну на самом деле выходит VPN — по каждому туннелю, даже если их несколько.",
+            "Сразу заметить, что сменился внешний IP или регион: отвалился VPN или трафик пошёл не тем маршрутом.",
+            "Узнать, какое приложение расходует трафик и с какими серверами оно общается.",
+            "Следить за скоростью, сигналом Wi-Fi и расходом данных, не открывая окон.",
+            "Быстро замерить скорость через Cloudflare или задержку прямо из строки меню.",
+        ],
+        "FACTS": [
+            ("Платформа", "macOS 14 Sonoma или новее"),
+            ("Процессор", "Apple silicon (M1 и новее)"),
+            ("Тип", "Утилита строки меню, без иконки в Dock"),
+            ("Где взять", "Mac App Store · разовая покупка, без подписки"),
+            ("VPN и туннели", "Любой туннельный интерфейс: WireGuard, IPsec, PPP и клиенты на utun/tun, например OpenVPN"),
+            ("Трафик по приложениям", "Необязательное системное расширение — контент-фильтр только на чтение"),
+            ("Аккаунт", "Не нужен"),
+            ("Сбор данных", "Нет — ни аналитики, ни рекламы, ни сервера"),
+            ("Языки", "Английский, русский"),
+            ("Разработчик", "Ohayo Studio"),
+        ],
+
         # -- network: faq --------------------------------------------------
         "FAQ_KICKER": "Вопросы",
         "FAQ_H2": "Перед покупкой.",
         "Q1": "Нужен ли VPN, чтобы это было полезно?",
-        "A1": "Нет. Без туннеля вы получаете скорость, внешний IP и регион, задержку, данные Wi-Fi, расход трафика и замер скорости. А если туннель есть, каждый активный определяется отдельно — именно этого не делает ни один другой монитор в строке меню.",
+        "A1": "Нет. Без туннеля вы получаете скорость, внешний IP и регион, задержку, данные Wi-Fi, расход трафика и замер скорости. А если туннель есть, каждый активный определяется отдельно — именно этим он отличается от большинства мониторов в строке меню.",
         "Q2": "Что за системное расширение и обязательно ли его ставить?",
         "A2": "Оно нужно только для трафика по приложениям и полностью необязательно — всё остальное работает без него. Это контент-фильтр macOS: только на чтение, ничего не блокирует и не читает содержимое. Вы ставите его сами, подтверждаете в «Настройках системы» и в любой момент удаляете из той же панели.",
         "Q3": "Работает ли на Intel-маках?",
@@ -314,6 +381,15 @@ STRINGS = {
         "FOOTER_PRIVACY": "Конфиденциальность",
         "FOOTER_EULA": "Лицензия",
         "FOOTER_FINE": "Копии из Mac App Store лицензируются по стандартному соглашению Apple (Licensed Application EULA); наша собственная лицензия относится к копиям, распространяемым напрямую.",
+
+        # -- machine-readable twins (JSON-LD, Markdown) --------------------
+        "LD_APPS": "Приложения Ohayo",
+        "LD_SUBCATEGORY": "Монитор сети",
+        "MD_STORE": "Загрузить в Mac App Store",
+        "MD_LINKS": "Ссылки",
+        "MD_WEB": "Веб-страница",
+        "MD_OTHER_LANG": "English version",
+        "MD_SUPPORT": "Поддержка",
     },
 }
 
@@ -326,45 +402,257 @@ PAGES = [
 ]
 
 root = Path(__file__).parent
+SITE = "https://apps.ohayo.by"
+ORG_ID = f"{SITE}/#organization"
+WEBSITE_ID = f"{SITE}/#website"
+APP_ID = f"{SITE}/ohayo-network#app"
+SHOTS = ("popover", "dashboard", "per-app", "settings")
 
 
 def render(template: str, values: dict) -> str:
     for key, value in values.items():
-        template = template.replace("{{%s}}" % key, value)
+        if isinstance(value, str):
+            template = template.replace("{{%s}}" % key, value)
     return template
 
 
-written = []
+def json_ld(graph: list) -> str:
+    text = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, indent=2)
+    return text.replace("<", "\\u003c")
+
+
+def org_nodes(s: dict) -> list:
+    return [
+        {
+            "@type": "Organization",
+            "@id": ORG_ID,
+            "name": "Ohayo Studio",
+            "alternateName": "Ohayo",
+            "url": f"{SITE}/",
+            "logo": {"@type": "ImageObject", "url": f"{SITE}/assets/apple-touch-icon.png", "width": 180, "height": 180},
+            "email": "feedback@ohayo.by",
+        },
+        {
+            "@type": "WebSite",
+            "@id": WEBSITE_ID,
+            "url": f"{SITE}/",
+            "name": "Ohayo",
+            "inLanguage": ["en", "ru"],
+            "publisher": {"@id": ORG_ID},
+        },
+    ]
+
+
+def home_ld(s: dict, url: str, network_url: str) -> str:
+    return json_ld(org_nodes(s) + [{
+        "@type": "CollectionPage",
+        "@id": f"{url}#webpage",
+        "url": url,
+        "name": s["HOME_TITLE"],
+        "description": s["HOME_DESCRIPTION"],
+        "inLanguage": s["LANG"],
+        "isPartOf": {"@id": WEBSITE_ID},
+        "about": {"@id": ORG_ID},
+        "mainEntity": {
+            "@type": "ItemList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "url": network_url, "name": "Ohayo Network"},
+            ],
+        },
+    }])
+
+
+def network_ld(s: dict, url: str, hub_url: str) -> str:
+    # No offers/price on purpose: prices are regional and owned by the Mac App Store.
+    return json_ld(org_nodes(s) + [
+        {
+            "@type": "WebPage",
+            "@id": f"{url}#webpage",
+            "url": url,
+            "name": s["TITLE"],
+            "description": s["DESCRIPTION"],
+            "inLanguage": s["LANG"],
+            "isPartOf": {"@id": WEBSITE_ID},
+            "about": {"@id": APP_ID},
+            "primaryImageOfPage": f"{SITE}/assets/ohayo-network/og.png",
+            "breadcrumb": {"@id": f"{url}#breadcrumb"},
+        },
+        {
+            "@type": "BreadcrumbList",
+            "@id": f"{url}#breadcrumb",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": s["LD_APPS"], "item": hub_url},
+                {"@type": "ListItem", "position": 2, "name": "Ohayo Network", "item": url},
+            ],
+        },
+        {
+            "@type": "SoftwareApplication",
+            "@id": APP_ID,
+            "name": "Ohayo Network",
+            "description": s["DESCRIPTION"],
+            "applicationCategory": "UtilitiesApplication",
+            "applicationSubCategory": s["LD_SUBCATEGORY"],
+            "operatingSystem": "macOS 14.0 or later",
+            "processorRequirements": "Apple silicon (arm64)",
+            "inLanguage": ["en", "ru"],
+            "url": url,
+            "installUrl": APP_STORE_URL,
+            "sameAs": [APP_STORE_URL],
+            "image": f"{SITE}/assets/ohayo-network/og.png",
+            "screenshot": [f"{SITE}/assets/ohayo-network/{s['SHOTS']}/{n}.png" for n in SHOTS],
+            "featureList": [s[f"F{i}_H"] for i in range(1, 9)],
+            "author": {"@id": ORG_ID},
+            "publisher": {"@id": ORG_ID},
+        },
+        {
+            "@type": "FAQPage",
+            "@id": f"{url}#faq",
+            "mainEntity": [
+                {"@type": "Question", "name": s[f"Q{i}"], "acceptedAnswer": {"@type": "Answer", "text": s[f"A{i}"]}}
+                for i in range(1, 7)
+            ],
+        },
+    ])
+
+
+def lang_hint(ru_path: str) -> str:
+    # Shown by site.js to Russian-language browsers only; English pages alone carry it.
+    return (
+        '<aside class="lang-hint" lang="ru" aria-label="Язык" hidden>'
+        "<span>Эта страница есть на русском.</span>"
+        f'<a href="{ru_path}" data-lang="ru">Открыть</a>'
+        '<button type="button" data-lang="en" aria-label="Закрыть">×</button>'
+        "</aside>"
+    )
+
+
+def network_md(s: dict, url: str, other_url: str) -> str:
+    out = [
+        "# Ohayo Network", "",
+        f"> {s['DESCRIPTION']}", "",
+        s["HERO_SUB"], "",
+        f"[{s['MD_STORE']}]({APP_STORE_URL}) · {s['HERO_NOTE']}", "",
+        f"## {s['GLANCE_H2'].rstrip('.')}", "",
+        *[f"- **{k}:** {v}" for k, v in s["FACTS"]], "",
+        f"### {s['USES_H']}", "",
+        *[f"- {u}" for u in s["USES"]], "",
+        f"## {s['NAV_FEATURES']}", "",
+        s["FEATURES_SUB"], "",
+    ]
+    for i in range(1, 9):
+        out += [f"### {s[f'F{i}_H']}", "", s[f"F{i}_P"], ""]
+    out += [f"## {s['SCREENS_H2'].rstrip('.')}", ""]
+    for i in range(1, 5):
+        out += [f"### {s[f'S{i}_H']}", "", s[f"S{i}_P"], ""]
+        items = [s[k] for k in (f"S{i}_L1", f"S{i}_L2", f"S{i}_L3") if k in s]
+        if items:
+            out += [f"- {x}" for x in items] + [""]
+    out += [f"## {s['PRIVACY_H2']}", "", s["PRIVACY_SUB"], ""]
+    for i in range(1, 4):
+        out += [f"### {s[f'P{i}_H']}", "", s[f"P{i}_P"], ""]
+    out += [f"## {s['NAV_FAQ']}", ""]
+    for i in range(1, 7):
+        out += [f"### {s[f'Q{i}']}", "", s[f"A{i}"], ""]
+    out += [
+        f"## {s['MD_LINKS']}", "",
+        f"- {s['MD_WEB']}: {url}",
+        f"- {s['MD_OTHER_LANG']}: {other_url}",
+        f"- Mac App Store: {APP_STORE_URL}",
+        f"- {s['MD_SUPPORT']}: https://legal.ohayo.by/network/support",
+        f"- {s['FOOTER_PRIVACY']}: https://legal.ohayo.by/network/privacy",
+        "- feedback@ohayo.by", "",
+    ]
+    text = "\n".join(out)
+    assert "<" not in text, "HTML leaked into the Markdown twin"
+    return text
+
+
+def version_assets(page: str) -> str:
+    # /assets/* is served immutable for a year, so every local reference carries a content hash.
+    def stamp(m):
+        path = m[1]
+        digest = hashlib.sha256((root / path.lstrip("/")).read_bytes()).hexdigest()[:10]
+        return f'="{path}?v={digest}"'
+    return re.sub(r'="(/assets/[^"?#]+)"', stamp, page)
+
+
+def git_lastmod(rel: Path, today: str) -> str:
+    # The last commit that touched the file, so lastmod moves only when the page does.
+    def git(*args):
+        return subprocess.run(["git", *args], cwd=root, capture_output=True, text=True)
+    if git("ls-files", "--error-unmatch", str(rel)).returncode == 0 and git("diff", "--quiet", "HEAD", "--", str(rel)).returncode == 0:
+        return git("log", "-1", "--format=%cs", "--", str(rel)).stdout.strip() or today
+    return today
+
+
+written = []  # (output file, url path, template file)
 for template_file, out_key, path_key, aliases in PAGES:
     template = (root / "templates" / template_file).read_text()
     for code, cfg in LOCALES.items():
-        values = dict(STRINGS[code])
+        s = dict(STRINGS[code])
+        s.update({k: v for k, v in cfg.items() if k.isupper()})
+        values = dict(s)
         values.update({k: values[v] for k, v in aliases.items()})
-        values.update({k: v for k, v in cfg.items() if k.isupper()})
+        url = SITE + cfg[path_key]
         values["SELF_PATH"] = cfg[path_key]
         values["APP_STORE_URL"] = APP_STORE_URL
+        values["LANG_HINT"] = lang_hint(LOCALES["ru"][path_key]) if code == "en" else ""
+        if template_file == "home.tmpl.html":
+            values["JSONLD"] = home_ld(s, url, SITE + cfg["network_path"])
+        else:
+            values["JSONLD"] = network_ld(s, url, SITE + cfg["home_path"])
+            values["MD_PATH"] = "/" + cfg["network_md"]
+            values["USES_LIST"] = "".join(f"<li>{html.escape(u, quote=False)}</li>" for u in s["USES"])
+            values["FACTS_LIST"] = "".join(
+                f"<dt>{html.escape(k, quote=False)}</dt><dd>{html.escape(v, quote=False)}</dd>" for k, v in s["FACTS"]
+            )
+            other = "ru" if code == "en" else "en"
+            md = root / cfg["network_md"]
+            md.parent.mkdir(parents=True, exist_ok=True)
+            md.write_text(network_md(s, url, SITE + LOCALES[other]["network_path"]))
+            print(f"wrote {cfg['network_md']}")
         out = root / cfg[out_key]
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(render(template, values))
-        written.append((out.relative_to(root), cfg[path_key]))
+        out.write_text(version_assets(render(template, values)))
+        written.append((out.relative_to(root), cfg[path_key], template_file))
         print(f"wrote {out.relative_to(root)}")
 
 leftovers = set()
-for rel, _ in written:
+for rel, _, _ in written:
     text = (root / rel).read_text()
     if "{{" in text:
         leftovers.update(part.split("}}")[0] for part in text.split("{{")[1:])
 if leftovers:
     raise SystemExit("unfilled placeholders: " + ", ".join(sorted(leftovers)))
 
+en = STRINGS["en"]
+(root / "llms.txt").write_text(f"""# Ohayo
+
+> {en["HOME_DESCRIPTION"]}
+
+## Apps
+
+- [Ohayo Network]({SITE}/ohayo-network.md): {en["DESCRIPTION"]} {en["HERO_NOTE"].replace(" · ", "; ")}.
+- [Ohayo Network, in Russian]({SITE}/ohayo-network/ru.md): the same page in Russian.
+
+## Optional
+
+- [Ohayo Network support](https://legal.ohayo.by/network/support)
+- [Ohayo Network privacy policy](https://legal.ohayo.by/network/privacy)
+""")
+print("wrote llms.txt")
+
 today = date.today().isoformat()
-urls = "\n".join(
-    f"  <url><loc>https://apps.ohayo.by{path}</loc><lastmod>{today}</lastmod></url>"
-    for _, path in written
-)
+entries = []
+for rel, path, template_file in written:
+    alternates = [(code, cfg[path_key]) for tf, _, path_key, _ in PAGES if tf == template_file for code, cfg in LOCALES.items()]
+    links = "".join(
+        f'\n    <xhtml:link rel="alternate" hreflang="{code}" href="{SITE}{alt}"/>' for code, alt in alternates
+    ) + f'\n    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{alternates[0][1]}"/>'
+    entries.append(f"  <url>\n    <loc>{SITE}{path}</loc>\n    <lastmod>{git_lastmod(rel, today)}</lastmod>{links}\n  </url>")
 (root / "sitemap.xml").write_text(
     '<?xml version="1.0" encoding="UTF-8"?>\n'
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    f"{urls}\n</urlset>\n"
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+    + "\n".join(entries) + "\n</urlset>\n"
 )
 print("wrote sitemap.xml")

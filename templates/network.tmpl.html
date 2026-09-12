@@ -10,11 +10,13 @@
 <link rel="alternate" hreflang="en" href="https://apps.ohayo.by/ohayo-network">
 <link rel="alternate" hreflang="ru" href="https://apps.ohayo.by/ohayo-network/ru">
 <link rel="alternate" hreflang="x-default" href="https://apps.ohayo.by/ohayo-network">
+<link rel="alternate" type="text/markdown" href="{{MD_PATH}}" title="{{TITLE}} (Markdown)">
 <link rel="icon" href="/assets/ohayo-network/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/ohayo-network/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ohayo">
 <meta property="og:locale" content="{{OG_LOCALE}}">
+<meta property="og:locale:alternate" content="{{OG_LOCALE_ALT}}">
 <meta property="og:title" content="{{TITLE}}">
 <meta property="og:description" content="{{DESCRIPTION}}">
 <meta property="og:url" content="https://apps.ohayo.by{{SELF_PATH}}">
@@ -25,26 +27,12 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="/assets/site.css">
 <script src="/assets/head.js"></script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Ohayo Network",
-  "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "macOS 14.0 or later, Apple silicon",
-  "inLanguage": ["en", "ru"],
-  "url": "https://apps.ohayo.by{{SELF_PATH}}",
-  "sameAs": "{{APP_STORE_URL}}",
-  "downloadUrl": "{{APP_STORE_URL}}",
-  "image": "https://apps.ohayo.by/assets/ohayo-network/og.png",
-  "description": "{{DESCRIPTION}}",
-  "author": { "@type": "Organization", "name": "Ohayo", "url": "https://apps.ohayo.by/" }
-}
-</script>
+<script type="application/ld+json">{{JSONLD}}</script>
 </head>
 <body>
 
 <a class="skip" href="#main">{{SKIP}}</a>
+{{LANG_HINT}}
 
 <header class="site-header">
   <div class="wrap">
@@ -71,7 +59,7 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <h1>{{HERO_H1}}</h1>
+        <h1><span class="h1-eyebrow">{{HERO_EYEBROW}}</span>{{HERO_H1}}</h1>
         <p class="lead">{{HERO_SUB}}</p>
         <div class="cta-row">
           <a class="badge" href="{{APP_STORE_URL}}" target="_blank" rel="noopener" aria-label="{{BADGE_ALT}}">
@@ -82,7 +70,10 @@
         <p class="cta-more"><a class="arrow-link" href="#features">{{HERO_SECONDARY}}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a></p>
       </div>
       <div class="stage">
-        <img class="app-shot" src="/assets/ohayo-network/{{SHOTS}}/popover.png" alt="{{ALT_POPOVER}}" width="652" height="1298" fetchpriority="high">
+        <picture>
+          <source srcset="/assets/ohayo-network/{{SHOTS}}/popover.avif" type="image/avif">
+          <img class="app-shot" src="/assets/ohayo-network/{{SHOTS}}/popover.png" alt="{{ALT_POPOVER}}" width="652" height="1298" fetchpriority="high">
+        </picture>
         <span class="chip chip-1"><img src="/assets/ohayo-network/{{SHOTS}}/menubar-speed.png" alt="" width="190" height="66"></span>
         <span class="chip chip-2"><img src="/assets/ohayo-network/{{SHOTS}}/menubar-sparkline.png" alt="" width="188" height="56"></span>
       </div>
@@ -177,40 +168,49 @@
       <div class="shots">
         <article class="shot reveal">
           <div class="shot-copy">
-            <h2>{{S1_H}}</h2>
+            <h3>{{S1_H}}</h3>
             <p>{{S1_P}}</p>
             <ul><li>{{S1_L1}}</li><li>{{S1_L2}}</li><li>{{S1_L3}}</li></ul>
           </div>
           <div class="shot-media">
-            <img src="/assets/ohayo-network/{{SHOTS}}/dashboard.png" alt="{{ALT_DASHBOARD}}" width="622" height="900" loading="lazy">
+            <picture>
+              <source srcset="/assets/ohayo-network/{{SHOTS}}/dashboard.avif" type="image/avif">
+              <img src="/assets/ohayo-network/{{SHOTS}}/dashboard.png" alt="{{ALT_DASHBOARD}}" width="622" height="900" loading="lazy">
+            </picture>
           </div>
         </article>
 
         <article class="shot reveal">
           <div class="shot-copy">
-            <h2>{{S2_H}}</h2>
+            <h3>{{S2_H}}</h3>
             <p>{{S2_P}}</p>
             <ul><li>{{S2_L1}}</li><li>{{S2_L2}}</li><li>{{S2_L3}}</li></ul>
           </div>
           <div class="shot-media">
-            <img src="/assets/ohayo-network/{{SHOTS}}/per-app.png" alt="{{ALT_PERAPP}}" width="756" height="900" loading="lazy">
+            <picture>
+              <source srcset="/assets/ohayo-network/{{SHOTS}}/per-app.avif" type="image/avif">
+              <img src="/assets/ohayo-network/{{SHOTS}}/per-app.png" alt="{{ALT_PERAPP}}" width="756" height="900" loading="lazy">
+            </picture>
           </div>
         </article>
 
         <article class="shot stack reveal">
           <div class="shot-copy">
-            <h2>{{S3_H}}</h2>
+            <h3>{{S3_H}}</h3>
             <p>{{S3_P}}</p>
             <ul><li>{{S3_L1}}</li><li>{{S3_L2}}</li><li>{{S3_L3}}</li></ul>
           </div>
           <div class="shot-media">
-            <img src="/assets/ohayo-network/{{SHOTS}}/settings.png" alt="{{ALT_SETTINGS}}" width="1200" height="796" loading="lazy">
+            <picture>
+              <source srcset="/assets/ohayo-network/{{SHOTS}}/settings.avif" type="image/avif">
+              <img src="/assets/ohayo-network/{{SHOTS}}/settings.png" alt="{{ALT_SETTINGS}}" width="1200" height="796" loading="lazy">
+            </picture>
           </div>
         </article>
 
         <article class="shot stack reveal">
           <div class="shot-copy">
-            <h2>{{S4_H}}</h2>
+            <h3>{{S4_H}}</h3>
             <p>{{S4_P}}</p>
           </div>
           <div class="shot-media">
@@ -237,6 +237,22 @@
           <div><h3>{{P3_H}}</h3><p>{{P3_P}}</p></div>
         </div>
         <p class="cta-note" style="margin-top:28px"><a href="https://legal.ohayo.by/network/privacy">{{PRIVACY_LINK}}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="glance">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">{{GLANCE_KICKER}}</p>
+        <h2>{{GLANCE_H2}}</h2>
+      </div>
+      <div class="glance reveal">
+        <div class="glance-uses">
+          <h3>{{USES_H}}</h3>
+          <ul>{{USES_LIST}}</ul>
+        </div>
+        <dl class="facts">{{FACTS_LIST}}</dl>
       </div>
     </div>
   </section>

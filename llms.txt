@@ -1,0 +1,13 @@
+# Ohayo
+
+> Apps from Ohayo Studio — what is out, what each one does and where to get it.
+
+## Apps
+
+- [Ohayo Network](https://apps.ohayo.by/ohayo-network.md): Live speed, your real exit IP and where each VPN tunnel exits — in the Mac menu bar. Per-app traffic, Wi-Fi details and a speed test. No account, no analytics. macOS 14 or later; Apple silicon; one-time purchase, no subscription.
+- [Ohayo Network, in Russian](https://apps.ohayo.by/ohayo-network/ru.md): the same page in Russian.
+
+## Optional
+
+- [Ohayo Network support](https://legal.ohayo.by/network/support)
+- [Ohayo Network privacy policy](https://legal.ohayo.by/network/privacy)

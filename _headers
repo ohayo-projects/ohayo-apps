@@ -6,3 +6,15 @@
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+/llms.txt
+  Content-Type: text/markdown; charset=utf-8
+
+# Markdown twins of the pages are for agents; search engines fold them into the HTML page.
+/ohayo-network.md
+  Content-Type: text/markdown; charset=utf-8
+  Link: <https://apps.ohayo.by/ohayo-network>; rel="canonical"
+
+/ohayo-network/ru.md
+  Content-Type: text/markdown; charset=utf-8
+  Link: <https://apps.ohayo.by/ohayo-network/ru>; rel="canonical"

@@ -15,6 +15,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ohayo">
 <meta property="og:locale" content="{{OG_LOCALE}}">
+<meta property="og:locale:alternate" content="{{OG_LOCALE_ALT}}">
 <meta property="og:title" content="{{TITLE}}">
 <meta property="og:description" content="{{DESCRIPTION}}">
 <meta property="og:url" content="https://apps.ohayo.by{{SELF_PATH}}">
@@ -24,10 +25,12 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="/assets/site.css">
 <script src="/assets/head.js"></script>
+<script type="application/ld+json">{{JSONLD}}</script>
 </head>
 <body>
 
 <a class="skip" href="#main">{{SKIP}}</a>
+{{LANG_HINT}}
 
 <header class="site-header">
   <div class="wrap">
@@ -54,13 +57,13 @@
     <div class="wrap">
       <div class="hub-grid">
         <a class="app-card reveal" href="{{NETWORK_PATH}}">
-          <span class="head">
+          <div class="head">
             <img src="/assets/ohayo-network/icon.svg" alt="" width="60" height="60">
-            <span>
-              <h3>Ohayo Network</h3>
+            <div>
+              <h2>Ohayo Network</h2>
               <span class="meta">{{CARD_META}}</span>
-            </span>
-          </span>
+            </div>
+          </div>
           <p>{{CARD_TEXT}}</p>
           <span class="more">{{CARD_MORE}}</span>
         </a>

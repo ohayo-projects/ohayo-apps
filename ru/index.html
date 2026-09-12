@@ -10,11 +10,12 @@
 <link rel="alternate" hreflang="en" href="https://apps.ohayo.by/">
 <link rel="alternate" hreflang="ru" href="https://apps.ohayo.by/ru">
 <link rel="alternate" hreflang="x-default" href="https://apps.ohayo.by/">
-<link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="icon" href="/assets/mark.svg?v=b35ab2026d" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=7a63a4b6b9">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ohayo">
 <meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
 <meta property="og:title" content="Ohayo — приложения Ohayo Studio">
 <meta property="og:description" content="Приложения Ohayo Studio — что вышло, что умеет каждое и где его взять.">
 <meta property="og:url" content="https://apps.ohayo.by/ru">
@@ -22,12 +23,70 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="/assets/site.css">
-<script src="/assets/head.js"></script>
+<link rel="stylesheet" href="/assets/site.css?v=21035404ca">
+<script src="/assets/head.js?v=bfcff36d0f"></script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://apps.ohayo.by/#organization",
+      "name": "Ohayo Studio",
+      "alternateName": "Ohayo",
+      "url": "https://apps.ohayo.by/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://apps.ohayo.by/assets/apple-touch-icon.png",
+        "width": 180,
+        "height": 180
+      },
+      "email": "feedback@ohayo.by"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://apps.ohayo.by/#website",
+      "url": "https://apps.ohayo.by/",
+      "name": "Ohayo",
+      "inLanguage": [
+        "en",
+        "ru"
+      ],
+      "publisher": {
+        "@id": "https://apps.ohayo.by/#organization"
+      }
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://apps.ohayo.by/ru#webpage",
+      "url": "https://apps.ohayo.by/ru",
+      "name": "Ohayo — приложения Ohayo Studio",
+      "description": "Приложения Ohayo Studio — что вышло, что умеет каждое и где его взять.",
+      "inLanguage": "ru",
+      "isPartOf": {
+        "@id": "https://apps.ohayo.by/#website"
+      },
+      "about": {
+        "@id": "https://apps.ohayo.by/#organization"
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "url": "https://apps.ohayo.by/ohayo-network/ru",
+            "name": "Ohayo Network"
+          }
+        ]
+      }
+    }
+  ]
+}</script>
 </head>
 <body>
 
 <a class="skip" href="#main">К содержимому</a>
+
 
 <header class="site-header">
   <div class="wrap">
@@ -54,13 +113,13 @@
     <div class="wrap">
       <div class="hub-grid">
         <a class="app-card reveal" href="/ohayo-network/ru">
-          <span class="head">
-            <img src="/assets/ohayo-network/icon.svg" alt="" width="60" height="60">
-            <span>
-              <h3>Ohayo Network</h3>
+          <div class="head">
+            <img src="/assets/ohayo-network/icon.svg?v=e9e6f6fa11" alt="" width="60" height="60">
+            <div>
+              <h2>Ohayo Network</h2>
               <span class="meta">macOS · Утилиты · Mac App Store</span>
-            </span>
-          </span>
+            </div>
+          </div>
           <p>Скорость, реальный внешний IP и геолокация каждого VPN-туннеля прямо в строке меню. Плюс трафик по приложениям — только на чтение.</p>
           <span class="more">Посмотреть →</span>
         </a>
@@ -87,6 +146,6 @@
   </div>
 </footer>
 
-<script src="/assets/site.js" defer></script>
+<script src="/assets/site.js?v=728873054f" defer></script>
 </body>
 </html>

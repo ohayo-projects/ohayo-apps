@@ -6,6 +6,10 @@
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    // The default (auto-trailing-slash) serves dir/index.html at /dir/ and 307s /dir,
+    // which would turn every canonical, hreflang and sitemap URL into a redirect.
+    "html_handling": "drop-trailing-slash",
+    "not_found_handling": "404-page"
   }
 }

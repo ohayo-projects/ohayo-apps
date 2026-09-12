@@ -7,11 +7,21 @@
     addEventListener("scroll", onScroll, { passive: true });
   }
 
-  document.querySelectorAll(".lang a").forEach(function (a) {
-    a.addEventListener("click", function () {
-      try { localStorage.setItem("ohayo.lang", a.dataset.lang); } catch (e) {}
+  var hint = document.querySelector(".lang-hint");
+  document.querySelectorAll("[data-lang]").forEach(function (el) {
+    el.addEventListener("click", function () {
+      try { localStorage.setItem("ohayo.lang", el.dataset.lang); } catch (e) {}
+      if (hint) hint.hidden = true;
     });
   });
+
+  // A suggestion, not a redirect: Google advises against locale redirects, and crawlers
+  // and shared links must land on the page they asked for.
+  if (hint) {
+    try {
+      if (!localStorage.getItem("ohayo.lang") && /^ru\b/i.test(navigator.language || "")) hint.hidden = false;
+    } catch (e) { /* storage blocked: stay quiet */ }
+  }
 
   var targets = document.querySelectorAll(".reveal");
   if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) {
